@@ -1,0 +1,79 @@
+#!/bin/env python3
+import os
+from subprocess import Popen
+from sys import argv
+
+def filesort(c):
+	filelist=[]
+	for (dirpath,dirnames,filenames) in os.walk("/usr/share/applications"):#get list of files
+		filelist.extend(filenames)
+		break
+	
+	deleted=0
+	for i in range(0,len(filelist)):#use only .desktop files
+		if ".desktop" not in filelist[i]:
+			filelist.pop(i-deleted)
+			deleted+=1
+	
+	out=[]
+	if(c):
+		for i in range(0,len(filelist)):#get names and categories for entries
+			fd=open("/usr/share/applications/%s"%filelist[i],'r')
+			Name=""
+			allow=0
+			for line in fd:
+				if ("%s;"%c in line):
+					allow=1
+					if len(Name)>0:
+						out.append([Name,filelist[i]])
+						break
+				if (line[:5:]=="Name=") and (i>len(out)):
+					Name=line[5:-1:]
+					if allow:
+						out.append([Name,filelist[i]])
+						break
+			fd.close()
+		return out
+	else:
+		for i in range(0,len(filelist)):#get names and categories for entries
+			fd=open("/usr/share/applications/%s"%filelist[i],'r')
+			Categories=""
+			for line in fd:
+				if (line[:11:]=="Categories=") and (i>len(out)):
+					Categories=line[11:-1:]
+					out.append([Categories,filelist[i]])
+					break
+			fd.close()
+		return out
+
+if len(argv)>2:
+	fopen=argv[2]
+	source=filesort(argv[1])
+	cmd=["thingmenu"]
+	for i in range(0,len(source)):
+		cmd.append("\"%s\""%source[i][0])
+		cmd.append('"\"%s /usr/share/applications/%s\""'%(fopen,source[i][1]))
+	cmd.append("Back")
+	cmd.append(argv[0])
+	Popen(cmd)
+else:
+	fopen="xdg-open"
+	if len(argv)>1:
+		fopen=argv[1]
+	#
+	#  uncommenting the following code allows you to show all possible categories
+	#
+	#source=filesort(0)
+	#CategoriesList=[]
+	#for i in range(0,len(source)):#get list of categories
+	#	List=source[i][0].split(';')
+	#	for s in List:
+	#		if not(s in CategoriesList) and (len(s)>0):
+	#			CategoriesList.append(s)
+	#CategoriesList.sort()
+	CategoriesList=["Audio","AudioVideo","Development","Education","Game","Graphics","Network","Office","Science","Settings","System","Utility","Video"]
+	cmd=["thingmenu"]
+	for i in range(0,len(CategoriesList)):
+		cmd.append("\"%s\""%CategoriesList[i])
+		cmd.append('"\"%s %s %s\""'%(argv[0],CategoriesList[i],fopen))
+	Popen(cmd)

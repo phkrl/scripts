@@ -1,0 +1,20 @@
+pkgname=thingmenu
+pkgver=0.8
+pkgrel=1
+pkgdesc='A simple graphical menu launcher for X11.'
+url='http://git.r-36.net/thingmenu/'
+arch=('x86_64')
+license=('MIT')
+source=("git://git.r-36.net/thingmenu")
+sha1sums=('SKIP')
+
+build() {
+	cd "${pkgname}"
+	make
+}
+
+package() {
+	cd ${pkgname}
+	make PREFIX=/usr DESTDIR="${pkgdir}" install
+	install -Dm 644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}"
+}
