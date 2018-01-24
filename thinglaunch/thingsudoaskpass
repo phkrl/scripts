@@ -1,0 +1,2 @@
+#!/bin/sh
+thinglaunch -s -o -p "[sudo] password for $USER: " | sudo -S $@

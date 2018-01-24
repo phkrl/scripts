@@ -1,0 +1,20 @@
+pkgname=thinglaunch
+pkgver=2.4
+pkgrel=1
+pkgdesc='A simple command and password prompter for X11. '
+arch=('x86_64')
+url='http://git.r-36.net/thinglaunch/'
+license=('MIT')
+source=("git://git.r-36.net/thinglaunch")
+sha1sums=('SKIP')
+
+build() {
+	cd "${pkgname}"
+	make
+}
+
+package() {
+	cd ${pkgname}
+	make PREFIX=/usr DESTDIR="${pkgdir}" install
+	install -Dm 644 LICENSE -t "${pkgdir}/usr/share/licenses/${pkgname}"
+}
