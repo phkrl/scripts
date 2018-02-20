@@ -49,15 +49,16 @@ def filesort(c):
 if len(argv)>2:
 	fopen=argv[2]
 	source=filesort(argv[1])
+	source.sort(key=lambda x: x[0])
 	cmd=["thingmenu"]
 	for i in range(0,len(source)):
-		cmd.append("\"%s\""%source[i][0])
+		cmd.append("%s"%source[i][0])
 		cmd.append('"\"%s /usr/share/applications/%s\""'%(fopen,source[i][1]))
 	cmd.append("Back")
 	cmd.append(argv[0])
 	Popen(cmd)
 else:
-	fopen="xdg-open"
+	fopen="dex"
 	if len(argv)>1:
 		fopen=argv[1]
 	#
@@ -74,6 +75,16 @@ else:
 	CategoriesList=["Audio","AudioVideo","Development","Education","Game","Graphics","Network","Office","Science","Settings","System","Utility","Video"]
 	cmd=["thingmenu"]
 	for i in range(0,len(CategoriesList)):
-		cmd.append("\"%s\""%CategoriesList[i])
+		cmd.append("%s"%CategoriesList[i])
 		cmd.append('"\"%s %s %s\""'%(argv[0],CategoriesList[i],fopen))
+	cmd.append("Run command")
+	cmd.append("thinglaunch")
+	cmd.append("Run command as root")
+	cmd.append("thingsudoaskpass $(thinglaunch -o)")
+	cmd.append("xkill")
+	cmd.append("xkill")
+	cmd.append("Reboot")
+	cmd.append('"\"thingsudoaskpass reboot\""')
+	cmd.append("Poweroff")
+	cmd.append('"\"thingsudoaskpass poweroff\""')
 	Popen(cmd)
