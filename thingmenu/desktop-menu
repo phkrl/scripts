@@ -11,7 +11,7 @@ def filesort(c):
 	
 	deleted=0
 	for i in range(0,len(filelist)):#use only .desktop files
-		if ".desktop" not in filelist[i]:
+		if ".desktop" not in filelist[i-deleted]:
 			filelist.pop(i-deleted)
 			deleted+=1
 	
