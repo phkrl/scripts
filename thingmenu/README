@@ -1,1 +1,10 @@
 thingmenu: http://git.r-36.net/thingmenu/
+
+Scripts here:
+1) desktop-menu
+contains a list of categories of .desktop files. Once category is chosen, script finds all files, containing it. 
+You may change launcher for .desktop file from command line (dex used by default)
+
+2) cmus-menu
+sends chosen command to cmus-remote. dmenu_file is used to choose file or directory to play 
+(enter . in desktop_menu to send pwd as output)
