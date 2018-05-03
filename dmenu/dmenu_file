@@ -1,0 +1,19 @@
+#!/bin/bash
+
+OBJ=.
+while [[ -d $OBJ ]]; do
+	cd "$OBJ"
+	OBJ=$(ls -a . | dmenu "$@")
+	if [[ $OBJ == . ]]
+	then
+		break
+	fi
+	done
+TEST=$(pwd)/$OBJ
+if [[ -e $TEST ]]
+then
+	if [[ -d $TEST && $OBJ == . ]] || [[ -f $TEST ]]
+	then echo $(pwd)/$OBJ
+	fi
+else echo $OBJ
+fi
