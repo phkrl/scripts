@@ -1,0 +1,8 @@
+#!/bin/python
+from os import chdir
+from subprocess import Popen
+
+chdir("Music")
+cmd=["thingmenu", "track", 'cmus-remote -q \"$(dmenu_file)\"', \
+"play", "cmus-remote -p", "pause", "cmus-remote -u", "next", "cmus-remote -n", "prev", "cmus-remote -r",  "stop", "cmus-remote -s", "repeat", "cmus-remote -R", "volume", "cmus-remote -v $(thinglaunch -p volume= -o)"]
+Popen(cmd)
